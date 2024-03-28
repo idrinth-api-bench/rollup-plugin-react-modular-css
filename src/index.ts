@@ -34,7 +34,7 @@ export default function () {
                     writeFileSync(`${process.cwd()}/public/assets/${name}-${hash}.min.css`, minified, 'utf8',);
                     code.replace(
                         matches[0],
-                        `import load from '@idrinth/rollup-plugin-react-modular-css';\n(() => load('${hash}', '${name}'))()`,
+                        `import load from '@idrinth/rollup-plugin-react-modular-css/src/load.js';\n(() => load('${hash}', '${name}'))()`,
                     );
                 }
                 return code;
