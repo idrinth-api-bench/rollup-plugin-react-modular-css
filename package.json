@@ -1,0 +1,19 @@
+{
+  "name": "@idrinth/rollup-plugin-react-modular-css",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "prepublishOnly": "npm run tsc"
+  },
+  "dependencies": {
+    "clean-css": "^5.3.3",
+    "rollup": "^4.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/clean-css": "^4.2.11"
+  },
+  "private": false
+}
