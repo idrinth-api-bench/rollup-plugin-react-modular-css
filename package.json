@@ -1,14 +1,15 @@
 {
   "name": "@idrinth/rollup-plugin-react-modular-css",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.2",
+  "description": "Provides a plugin to split css files out separately.",
   "main": "src/index.js",
   "repository": {
     "url": "https://github.com/idrinth/rollup-plugin-react-modular-css"
   },
+  "type": "module",
   "license": "MIT",
   "scripts": {
-    "tsc": "tsc",
+    "tsc": "tsc -p tsconfig.json",
     "prepublishOnly": "npm run tsc"
   },
   "dependencies": {
