@@ -1,16 +1,13 @@
 import {
     readFileSync,
-    writeFileSync,
 } from 'fs';
 import {
     dirname,
 } from 'path';
-import CleanCSS from 'clean-css';
 import {
-    createHash,
-} from 'crypto';
-
-const minifier = new CleanCSS();
+    compileString,
+} from 'sass';
+import writeCss from './write-css.js';
 
 export default function () {
     return {
@@ -19,27 +16,26 @@ export default function () {
             if (id.endsWith('src/main.tsx',)) {
                 return null;
             }
-            let matches = code.match(/import ["']\.\/[^"]+?\.css['"];/ug);
-            if (matches) {
-                for (const match of matches) {
-                    const path = `${dirname(id)}/${match.replace(/import ['"]\.\/(.*)['"];/u, '$1',)}`;
-                    const minified = minifier.minify(readFileSync(path, 'utf8')).styles;
-                    const hash = createHash('sha256')
-                        .update(minified,)
-                        .digest('hex',);
-                    const name = id
-                        .replace(/\/[^/]+.[tj]sx?$/u, '',)
-                        .split('/',)
-                        .pop();
-                    writeFileSync(`${process.cwd()}/public/assets/${name}-${hash}.min.css`, minified, 'utf8',);
-                    code.replace(
-                        matches[0],
-                        `import load from '@idrinth/rollup-plugin-react-modular-css';\n(() => load('${hash}', '${name}'))()`,
-                    );
+            let modified = true;
+            const css = code.matchAll(/import ["']\.\/[^"]+?\.css['"];/ug);
+            if (css) {
+                for (const match of css) {
+                    const path = `${dirname(id)}/${match[0].replace(/import ['"]\.\/(.*)['"];/u, '$1',)}`;
+                    const data = readFileSync(path, 'utf8');
+                    code = writeCss(id, data, code, match,);
+                    modified = true;
                 }
-                return code;
             }
-            return null;
+            const scss = code.matchAll(/import ["']\.\/[^"]+?\.scss['"];/ug);
+            if (scss) {
+                for (const match of scss) {
+                    const path = `${dirname(id)}/${match[0].replace(/import ['"]\.\/(.*)['"];/u, '$1',)}`;
+                    const data = compileString(readFileSync(path, 'utf8'),).css;
+                    code = writeCss(id, data, code, match,);
+                    modified = true;
+                }
+            }
+            return modified ? code : null;
         }
     };
 }

@@ -1,6 +1,6 @@
 {
   "name": "@idrinth/rollup-plugin-react-modular-css",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Provides a plugin to split css files out separately.",
   "main": "src/index.js",
   "repository": {
@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "clean-css": "^5.3.3",
-    "rollup": "^4.13.1"
+    "rollup": "^4.13.1",
+    "sass": "^1.74.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
