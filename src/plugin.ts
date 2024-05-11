@@ -13,17 +13,13 @@ export default function () {
     return {
         name: '@idrinth/rollup-plugin-react-modular-css',
         transform ( code: string, id: string ) {
-            if (id.endsWith('src/main.tsx',)) {
-                return null;
-            }
-            let modified = true;
+            const csss = [];
             const css = code.matchAll(/import ["']\.\/[^"]+?\.css['"];/ug);
             if (css) {
                 for (const match of css) {
                     const path = `${dirname(id)}/${match[0].replace(/import ['"]\.\/(.*)['"];/u, '$1',)}`;
                     const data = readFileSync(path, 'utf8');
-                    code = writeCss(id, data, code, match,);
-                    modified = true;
+                    csss.push(data);
                 }
             }
             const scss = code.matchAll(/import ["']\.\/[^"]+?\.scss['"];/ug);
@@ -31,11 +27,18 @@ export default function () {
                 for (const match of scss) {
                     const path = `${dirname(id)}/${match[0].replace(/import ['"]\.\/(.*)['"];/u, '$1',)}`;
                     const data = compileString(readFileSync(path, 'utf8'),).css;
-                    code = writeCss(id, data, code, match,);
-                    modified = true;
+                    csss.push(data);
                 }
             }
-            return modified ? code : null;
+            if (csss.length > 0) {
+                return writeCss(
+                    id,
+                    csss.join('\n'),
+                    code
+                        .replace(/import ["']\.\/[^"]+?\.s?css['"];/ug, ''),
+                );
+            }
+            return null;
         }
     };
 }
