@@ -19,5 +19,5 @@ export default (id: string, css: string, code: string): string => {
         .split('/',)
         .pop();
     writeFileSync(`${process.cwd()}/public/assets/${name}-${hash}.min.css`, minified, 'utf8',);
-    return `import load from '@idrinth/rollup-plugin-react-modular-css/src/load.js';\n(() => load('${hash}', '${name}'))()\n${code}`;
+    return `import load from '@idrinth-api-bench/rollup-plugin-react-modular-css/src/load.js';\n(() => load('${hash}', '${name}'))()\n${code}`;
 }

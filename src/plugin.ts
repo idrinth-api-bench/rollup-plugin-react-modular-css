@@ -11,7 +11,7 @@ import writeCss from './write-css.js';
 
 export default function () {
     return {
-        name: '@idrinth/rollup-plugin-react-modular-css',
+        name: '@idrinth-api-bench/rollup-plugin-react-modular-css',
         transform ( code: string, id: string ) {
             const csss = [];
             const css = code.matchAll(/import ["']\.\/[^"]+?\.css['"];/ug);
