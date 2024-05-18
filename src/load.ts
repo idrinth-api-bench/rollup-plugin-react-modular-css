@@ -1,6 +1,6 @@
 export default (hash: string, name: string) => {
     const global = window || this || {};
-    const header = global.document.getElementsByTagName('header')[0];
+    const header = global.document.getElementsByTagName('head')[0];
     const path = `/assets/${name}-${hash}.min.css`;
     if (global.document.querySelector(`link[href='${ path }']`)) {
         return;
