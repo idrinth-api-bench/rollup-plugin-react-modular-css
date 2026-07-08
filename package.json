@@ -20,7 +20,7 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/clean-css": "^4.2.11",
-    "typescript": "^5.4.3"
+    "typescript": "^7.0.0"
   },
   "private": false
 }
